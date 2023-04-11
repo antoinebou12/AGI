@@ -1,0 +1,44 @@
+[tool.poetry]
+name = "your_project_name"
+version = "0.1.0"
+description = "Your project description"
+authors = ["Your Name <you@example.com>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+beautifulsoup4 = "*"
+colorama = "0.4.6"
+openai = "0.27.2"
+playsound = "1.2.2"
+python-dotenv = "1.0.0"
+pyyaml = "6.0"
+readability-lxml = "0.8.1"
+requests = "*"
+tiktoken = "0.3.3"
+gTTS = "2.3.1"
+docker = "*"
+duckduckgo-search = "*"
+google-api-python-client = "*"
+pinecone-client = "2.2.1"
+redis = "*"
+orjson = "*"
+Pillow = "*"
+ray = "2.3.1"
+pandas = "*"
+numpy = "*"
+httpx = "*"
+uvicorn = "*"
+fastapi = "*"
+rich = "*"
+typer = "*"
+torch = "*"
+transformers = "*"
+sentencepiece = "*"
+
+[tool.poetry.dev-dependencies]
+pytest = "^6.2"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

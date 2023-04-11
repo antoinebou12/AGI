@@ -16,3 +16,6 @@ redis
 orjson
 Pillow
 ray==2.3.1
+httpx
+rich
+typer
