@@ -1,5 +1,8 @@
 import os
 import os.path
+from rich.console import Console
+
+console = Console()
 
 # Set a dedicated folder for file I/O
 working_directory = "agi_workspace"
@@ -19,16 +22,17 @@ def safe_join(base, *paths):
 
     return norm_new_path
 
-
 def read_file(filename):
     """Read a file and return the contents"""
     try:
         filepath = safe_join(working_directory, filename)
         with open(filepath, "r", encoding='utf-8') as f:
             content = f.read()
+        console.print(f"[green]File read successfully: {filename}")
         return content
     except Exception as e:
-        return "Error: " + str(e)
+        console.print(f"[red]Error:[/red] {str(e)}")
+        return ""
 
 
 def write_to_file(filename, text):
@@ -40,9 +44,9 @@ def write_to_file(filename, text):
             os.makedirs(directory)
         with open(filepath, "w") as f:
             f.write(text)
-        return "File written to successfully."
+        console.print(f"[green]File written to successfully: {filename}")
     except Exception as e:
-        return "Error: " + str(e)
+        console.print(f"[red]Error:[/red] {str(e)}")
 
 
 def append_to_file(filename, text):
@@ -51,9 +55,9 @@ def append_to_file(filename, text):
         filepath = safe_join(working_directory, filename)
         with open(filepath, "a") as f:
             f.write(text)
-        return "Text appended successfully."
+        console.print(f"[green]Text appended successfully: {filename}")
     except Exception as e:
-        return "Error: " + str(e)
+        console.print(f"[red]Error:[/red] {str(e)}")
 
 
 def delete_file(filename):
@@ -61,9 +65,10 @@ def delete_file(filename):
     try:
         filepath = safe_join(working_directory, filename)
         os.remove(filepath)
-        return "File deleted successfully."
+        console.print(f"[green]File deleted successfully: {filename}")
     except Exception as e:
-        return "Error: " + str(e)
+        console.print(f"[red]Error:[/red] {str(e)}")
+
 
 def search_files(directory):
     found_files = []
@@ -79,5 +84,9 @@ def search_files(directory):
                 continue
             relative_path = os.path.relpath(os.path.join(root, file), working_directory)
             found_files.append(relative_path)
+
+    console.print("[cyan]Found files:")
+    for file in found_files:
+        console.print(f"[green]->[/green] {file}")
 
     return found_files
