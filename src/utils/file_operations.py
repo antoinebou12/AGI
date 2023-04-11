@@ -2,7 +2,7 @@ import os
 import os.path
 
 # Set a dedicated folder for file I/O
-working_directory = "auto_gpt_workspace"
+working_directory = "agi_workspace"
 
 # Create the directory if it doesn't exist
 if not os.path.exists(working_directory):

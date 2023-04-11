@@ -16,14 +16,6 @@ from googleapiclient.errors import HttpError
 
 cfg = Config()
 
-
-def is_valid_int(value):
-    try:
-        int(value)
-        return True
-    except ValueError:
-        return False
-
 def get_command(response):
     """Parse the response and return the command name and arguments"""
     try:
@@ -295,6 +287,4 @@ def list_agents():
 def delete_agent(key):
     """Delete an agent with a given key"""
     result = agents.delete_agent(key)
-    if not result:
-        return f"Agent {key} does not exist."
-    return f"Agent {key} deleted."
+    return f"Agent {key} deleted." if result else f"Agent {key} does not exist."

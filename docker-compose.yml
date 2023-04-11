@@ -1,0 +1,47 @@
+version: "3.8"
+
+services:
+  AGI:
+    build: .
+    container_name: AGI
+    restart: always
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./agi:/agi
+    environment:
+      - AGI_CONFIG=/agi/config.json
+      - AGI_LOG=/agi/log
+      - AGI_DATA=/agi/data
+      - AGI_PORT=8080
+      - AGI_HOST=
+
+  pinecone:
+    image: pinecone/pinecone:latest
+    container_name: pinecone
+    restart: always
+    ports:
+      - "8081:8081"
+    volumes:
+      - ./pinecone:/pinecone
+    environment:
+      - PINECONE_CONFIG=/pinecone/config.json
+      - PINECONE_LOG=/pinecone/log
+      - PINECONE_DATA=/pinecone/data
+      - PINECONE_PORT=8081
+      - PINECONE_HOST=
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./redis:/redis
+    environment:
+      - REDIS_CONFIG=/redis/config.json
+      - REDIS_LOG=/redis/log
+      - REDIS_DATA=/redis/data
+      - REDIS_PORT=6379
+      - REDIS_HOST=

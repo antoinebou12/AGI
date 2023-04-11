@@ -11,3 +11,10 @@ def get_clean_input(prompt: str = ''):
         print("You interrupted Auto-GPT")
         print("Quitting...")
         exit(0)
+
+def is_valid_int(value):
+    try:
+        int(value)
+        return True
+    except ValueError:
+        return False
