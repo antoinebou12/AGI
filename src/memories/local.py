@@ -15,7 +15,6 @@ import orjson
 from memories.base import get_ada_embedding
 from memories.base import MemoryProviderSingleton
 
-
 EMBED_DIM = 1536
 SAVE_OPTIONS = orjson.OPT_SERIALIZE_NUMPY | orjson.OPT_SERIALIZE_DATACLASS
 

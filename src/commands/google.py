@@ -26,9 +26,10 @@ class GoogleCommand(BaseCommand):
 
     def google_official_search(self, query, num_results=8):
         """Return the results of a google search using the official Google API"""
+        import json
+
         from googleapiclient.discovery import build
         from googleapiclient.errors import HttpError
-        import json
 
         try:
             # Get the Google API key and Custom Search Engine ID from the config file

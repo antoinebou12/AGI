@@ -20,7 +20,6 @@ from redis.commands.search.query import Query
 from memories.base import get_ada_embedding
 from memories.base import MemoryProviderSingleton
 
-
 SCHEMA = [
     TextField("data"),
     VectorField(
