@@ -44,7 +44,7 @@ pytest-cov = "^2.12"
 pytest-mock = "^3.6"
 pytest-asyncio = "^0.21.0"
 mkdocs = "^1.2"
-mkdocs-material = "^7.3"
+mkdocs-material = "^9.0.0"
 mkdocstrings = "^0.15.2"
 
 [build-system]
