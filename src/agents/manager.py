@@ -1,14 +1,16 @@
-from llm.llm_utils import create_chat_completion
+from llms.OpenAI import ChatAssistant
+
 
 class AgentManager:
     def __init__(self):
         self.next_key = 0
         self.agents = {}  # key, (task, full_message_history, model)
+        self.chat = ChatAssistant()
 
     def create_agent(self, task, prompt, model):
         messages = [{"role": "user", "content": prompt}]
 
-        agent_reply = create_chat_completion(
+        agent_reply = self.chat.create_chat_completion(
             model=model,
             messages=messages,
         )
@@ -27,7 +29,7 @@ class AgentManager:
 
         messages.append({"role": "user", "content": message})
 
-        agent_reply = create_chat_completion(
+        agent_reply = self.chat.create_chat_completion(
             model=model,
             messages=messages,
         )

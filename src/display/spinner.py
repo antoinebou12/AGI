@@ -1,16 +1,15 @@
+import itertools
 import sys
 import threading
-import itertools
 import time
-from rich.spinner import Spinner as RichSpinner
-from rich.console import Console
 
 
 class Spinner:
     """A simple spinner class"""
+
     def __init__(self, message="Loading...", delay=0.1):
         """Initialize the spinner class"""
-        self.spinner = itertools.cycle(['-', '/', '|', '\\'])
+        self.spinner = itertools.cycle(["-", "/", "|", "\\"])
         self.delay = delay
         self.message = message
         self.running = False
@@ -22,7 +21,7 @@ class Spinner:
             sys.stdout.write(f"{next(self.spinner)} {self.message}" + "\r")
             sys.stdout.flush()
             time.sleep(self.delay)
-            sys.stdout.write('\b' * (len(self.message) + 2))
+            sys.stdout.write("\b" * (len(self.message) + 2))
 
     def __enter__(self):
         """Start the spinner"""
@@ -34,5 +33,5 @@ class Spinner:
         """Stop the spinner"""
         self.running = False
         self.spinner_thread.join()
-        sys.stdout.write('\r' + ' ' * (len(self.message) + 2) + '\r')
+        sys.stdout.write("\r" + " " * (len(self.message) + 2) + "\r")
         sys.stdout.flush()

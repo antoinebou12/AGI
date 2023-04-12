@@ -1,21 +1,29 @@
 import httpx
 from bs4 import BeautifulSoup
-from config import Config
-from llm_utils import create_chat_completion
 from rich.console import Console
+
+from configs import Config
+from llms.llm_utils import create_chat_completion
 
 console = Console()
 
 cfg = Config()
 
+
 # Define and check for local file address prefixes
 def check_local_file_access(url):
-    local_prefixes = ['file:///', 'file://localhost', 'http://localhost', 'https://localhost']
+    local_prefixes = [
+        "file:///",
+        "file://localhost",
+        "http://localhost",
+        "https://localhost",
+    ]
     return any(url.startswith(prefix) for prefix in local_prefixes)
+
 
 def scrape_text(url):
     """Scrape text from a webpage"""
-    if not url.startswith('http'):
+    if not url.startswith("http"):
         return "Error: Invalid URL"
 
     if check_local_file_access(url):
@@ -37,13 +45,14 @@ def scrape_text(url):
     text = soup.get_text()
     lines = (line.strip() for line in text.splitlines())
     chunks = (phrase.strip() for line in lines for phrase in line.split("  "))
-    text = '\n'.join(chunk for chunk in chunks if chunk)
+    text = "\n".join(chunk for chunk in chunks if chunk)
 
     return text
 
+
 def extract_hyperlinks(soup):
     """Extract hyperlinks from a BeautifulSoup object"""
-    return [(link.text, link['href']) for link in soup.find_all('a', href=True)]
+    return [(link.text, link["href"]) for link in soup.find_all("a", href=True)]
 
 
 def format_hyperlinks(hyperlinks):
@@ -86,6 +95,7 @@ def split_text(text, max_length=8192):
 
     if current_chunk:
         yield "\n".join(current_chunk)
+
 
 def summarize_text(text, question):
     if not text:

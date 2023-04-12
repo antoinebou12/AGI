@@ -45,3 +45,18 @@ services:
       - REDIS_DATA=/redis/data
       - REDIS_PORT=6379
       - REDIS_HOST=
+
+  rabbitmq:
+    image: rabbitmq:latest
+    container_name: rabbitmq
+    restart: always
+    ports:
+      - "5672:5672"
+    volumes:
+      - ./rabbitmq:/rabbitmq
+    environment:
+      - RABBITMQ_CONFIG=/rabbitmq/config.json
+      - RABBITMQ_LOG=/rabbitmq/log
+      - RABBITMQ_DATA=/rabbitmq/data
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_HOST=

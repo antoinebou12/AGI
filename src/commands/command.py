@@ -1,8 +1,13 @@
 import json
-import datetime
-from abc import ABC, abstractmethod
-from typing import List, Dict, Any, Optional
-import rich
+from abc import ABC
+from abc import abstractmethod
+
+from commands.google import GoogleCommand
+from commands.memory import MemoryAddCommand
+from configs import Config
+
+cfg = Config()
+
 
 class BaseCommand(ABC):
     def __init__(self, arguments):
@@ -12,17 +17,6 @@ class BaseCommand(ABC):
     def execute(self):
         pass
 
-class GoogleCommand(BaseCommand):
-    def execute(self):
-        # Implement the google search logic here
-        pass
-
-class MemoryAddCommand(BaseCommand):
-    def execute(self):
-        # Implement the memory_add logic here
-        pass
-
-# ... Other command classes ...
 
 class CommandFactory:
     @staticmethod
@@ -34,9 +28,32 @@ class CommandFactory:
         else:
             raise ValueError(f"Unknown command '{command_name}'")
 
+
 def execute_command(command_name, arguments):
     try:
         command = CommandFactory.create_command(command_name, arguments)
         return command.execute()
     except Exception as e:
-        return "Error: " + str(e)
+        return f"Error: {str(e)}"
+
+
+def get_command(response):
+    try:
+        response_json = json.loads(response)
+
+        if "command" not in response_json:
+            return "Error:", "Missing 'command' object in JSON"
+
+        command = response_json["command"]
+
+        if "name" not in command:
+            return "Error:", "Missing 'name' field in 'command' object"
+
+        command_name = command["name"]
+        arguments = command.get("args", {})
+
+        return command_name, arguments
+    except json.JSONDecodeError:
+        return "Error:", "Invalid JSON"
+    except Exception as e:
+        return "Error:", str(e)

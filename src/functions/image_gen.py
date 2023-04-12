@@ -1,24 +1,32 @@
-import requests
 import io
 import os.path
-from PIL import Image
-from config import Config
 import uuid
-import openai
 from base64 import b64decode
 
-cfg = Config()
+import openai
+import requests
+from PIL import Image
 
-working_directory = "auto_gpt_workspace"
+from configs import Config
 
-def generate_image(prompt):
 
-    filename = str(uuid.uuid4()) + ".jpg"
+class ImageGenerator:
+    def __init__(self, cfg=Config()):
+        self.cfg = cfg
+        self.working_directory = "auto_gpt_workspace"
 
-    # DALL-E
-    if cfg.image_provider == 'dalle':
+    def generate_image(self, prompt):
+        filename = f"{str(uuid.uuid4())}.jpg"
 
-        openai.api_key = cfg.openai_api_key
+        if self.cfg.image_provider == "dalle":
+            return self._generate_image_dalle(prompt, filename)
+        elif self.cfg.image_provider == "sd":
+            return self._generate_image_sd(prompt, filename)
+        else:
+            return "No Image Provider Set"
+
+    def _generate_image_dalle(self, prompt, filename):
+        openai.api_key = self.cfg.openai_api_key
 
         response = openai.Image.create(
             prompt=prompt,
@@ -27,31 +35,32 @@ def generate_image(prompt):
             response_format="b64_json",
         )
 
-        print("Image Generated for prompt:" + prompt)
+        print(f"Image Generated for prompt:{prompt}")
 
         image_data = b64decode(response["data"][0]["b64_json"])
 
-        with open(working_directory + "/" + filename, mode="wb") as png:
+        with open(f"{self.working_directory}/{filename}", mode="wb") as png:
             png.write(image_data)
 
-        return "Saved to disk:" + filename
+        return f"Saved to disk:{filename}"
 
-    # STABLE DIFFUSION
-    elif cfg.image_provider == 'sd':
+    def _generate_image_sd(self, prompt, filename):
+        API_URL = (
+            "https://api-inference.huggingface.co/models/CompVis/stable-diffusion-v1-4"
+        )
+        headers = {"Authorization": f"Bearer {self.cfg.huggingface_api_token}"}
 
-        API_URL = "https://api-inference.huggingface.co/models/CompVis/stable-diffusion-v1-4"
-        headers = {"Authorization": "Bearer " + cfg.huggingface_api_token}
-
-        response = requests.post(API_URL, headers=headers, json={
-            "inputs": prompt,
-        })
+        response = requests.post(
+            API_URL,
+            headers=headers,
+            json={
+                "inputs": prompt,
+            },
+        )
 
         image = Image.open(io.BytesIO(response.content))
-        print("Image Generated for prompt:" + prompt)
+        print(f"Image Generated for prompt:{prompt}")
 
-        image.save(os.path.join(working_directory, filename))
+        image.save(os.path.join(self.working_directory, filename))
 
-        return "Saved to disk:" + filename
-
-    else:
-        return "No Image Provider Set"
+        return f"Saved to disk:{filename}"

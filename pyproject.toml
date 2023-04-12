@@ -35,6 +35,8 @@ typer = "*"
 torch = "*"
 transformers = "*"
 sentencepiece = "*"
+langchain = "^0.0.137"
+no-implicit-optional = "^1.3"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2"

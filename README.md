@@ -164,7 +164,7 @@ Pinecone enables the storage of vast amounts of vector-based memory, allowing fo
 
 ### Setting up environment variables
 
-Simply set them in the `.env` file. 
+Simply set them in the `.env` file.
 
 Alternatively, you can set them from the command line (advanced):
 
