@@ -10,6 +10,7 @@ from src.configs.agi_config import AGIConfig
 from src.display.print import print_assistant_thoughts
 from src.display.print import print_to_console
 from src.display.spinner import Spinner
+from src.llms.OpenAI import ChatAssistant
 from src.utils.logs import configure_logging
 
 app = typer.Typer()
@@ -22,6 +23,7 @@ class AutoGPT:
         self.full_message_history = []
         self.next_action_count = 0
         self.memory = None
+        self.chat = ChatAssistant()
 
     def construct_prompt(self) -> str:
         """Construct the prompt for the AI to respond to"""
@@ -240,11 +242,13 @@ class AutoGPT:
             # Check if there's a result from the command append it to the message
             # history
             if result is not None:
-                full_message_history.append(chat.create_chat_message("system", result))
+                full_message_history.append(
+                    self.chat.create_chat_message("system", result)
+                )
                 print_to_console("SYSTEM: ", Fore.YELLOW, result)
             else:
                 full_message_history.append(
-                    chat.create_chat_message("system", "Unable to execute command")
+                    self.chat.create_chat_message("system", "Unable to execute command")
                 )
                 print_to_console("SYSTEM: ", Fore.YELLOW, "Unable to execute command")
 

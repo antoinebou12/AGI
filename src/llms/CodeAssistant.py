@@ -26,7 +26,7 @@ class CodeAssistant:
         args = [self.code]
         description_string = """Analyzes the given code and returns a list of suggestions for improvements."""
 
-        return call_ai_function(function_string, args, description_string)
+        return self.call_ai_function(function_string, args, description_string)
 
     def improve_code(self, suggestions: List[str]) -> str:
         """

@@ -2,17 +2,9 @@ from pathlib import Path
 
 
 def load_prompt():
-    """Load the prompt from data/prompt.txt"""
+    """Load the prompt from prompt.txt"""
     try:
-        # get directory of this file:
-        file_dir = Path(__file__).parent
-        prompt_file_path = file_dir / "data" / "prompt.txt"
-
-        # Load the prompt from data/prompt.txt
-        with open(prompt_file_path) as prompt_file:
-            prompt = prompt_file.read()
-
-        return prompt
+        return Path("prompt.txt").read_text()
     except FileNotFoundError:
         print("Error: Prompt file not found", flush=True)
         return ""

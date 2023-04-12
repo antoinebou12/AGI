@@ -1,8 +1,15 @@
 import agents
 from commands.command import BaseCommand
+from functions import is_valid_int
 
 
 class AgentCommand(BaseCommand):
+    def __init__(self, name, task, prompt, model=cfg.fast_llm_model):
+        super().__init__(name)
+        self.task = task
+        self.prompt = prompt
+        self.model = model
+
     def execute(self):
         return super().execute()
 

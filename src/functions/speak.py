@@ -44,16 +44,17 @@ class TextToSpeech:
     def google_speech(self, text):
         """Speak text using Google's TTS API"""
         tts = gtts.gTTS(text)
-        tts.save("temp.mp3")
-        playsound("temp.mp3")
-        os.remove("temp.mp3")
+        self.playsoundText(tts)
 
     def gtts_speech(self, text):
         tts = gtts.gTTS(text)
         with self.mutex_lock:
-            tts.save("temp.mp3")
-            playsound("temp.mp3")
-            os.remove("temp.mp3")
+            self.playsoundText(tts)
+
+    def playsoundText(self, tts):
+        tts.save("temp.mp3")
+        playsound("temp.mp3")
+        os.remove("temp.mp3")
 
     def macos_tts_speech(self, text):
         os.system(f'say "{text}"')

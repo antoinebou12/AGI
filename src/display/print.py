@@ -5,7 +5,7 @@ from rich.console import Console
 from rich.text import Text
 
 from functions.speak import speak
-from utils.json_parser import fix_and_parse_json
+from src.utils.json import fix_and_parse_json
 
 console = Console()
 
