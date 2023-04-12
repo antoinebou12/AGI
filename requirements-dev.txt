@@ -1,0 +1,7 @@
+pytest
+pytest-cov
+pytest-flake8
+mkdocs
+mkdocs-material
+mkdocs-git-revision-date-localized-plugin
+mkdocs-awesome-pages-plugin
