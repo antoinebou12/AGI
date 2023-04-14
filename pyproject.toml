@@ -45,7 +45,7 @@ pytest-mock = "^3.6"
 pytest-asyncio = "^0.21.0"
 mkdocs = "^1.2"
 mkdocs-material = "^9.0.0"
-mkdocstrings = "^0.15.2"
+mkdocstrings = "^0.21.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
